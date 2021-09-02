@@ -64,7 +64,9 @@ export type AgendaProps = CalendarListProps & ReservationListProps & {
   /** Hide knob button. Default = false */
   hideKnob: boolean,
   /** When `true` and `hideKnob` prop is `false`, the knob will always be visible and the user will be able to drag the knob up and close the calendar. Default = false */
-  showClosingKnob: boolean
+  showClosingKnob: boolean,
+  /** Replace the existing Agenda FlatList with your own component */
+  AgendaListComp?: JSX.Element,
 }
 
 type AgendaState = {
@@ -357,7 +359,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     const reservationListProps = extractComponentProps(ReservationList, this.props);
 
     return (
-      <ReservationList
+      <ReservationList 
         {...reservationListProps}
         ref={this.list}
         reservations={this.props.items}
@@ -365,6 +367,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
         topDay={this.state.topDay}
         onDayChange={this.onDayChange}
         onScroll={() => {}}
+        AgendaListComp={this.props.AgendaListComp}
       />
     );
   }

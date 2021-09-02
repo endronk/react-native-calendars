@@ -15,7 +15,6 @@ import styleConstructor from './style';
 import Reservation, {ReservationProps} from './reservation';
 import {ReservationItemType, ReservationsType} from 'agenda';
 
-
 export interface DayReservations {
   reservation?: ReservationItemType;
   date?: XDate;
@@ -53,6 +52,8 @@ export type ReservationListProps = ReservationProps & {
   refreshing?: boolean;
   /** If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make sure to also set the refreshing prop correctly */
   onRefresh?: () => void;
+  /** Replace the existing Agenda FlatList with your own component */
+  AgendaListComp?: React.ElementType;
 };
 
 interface ReservationsListState {
@@ -92,7 +93,9 @@ class ReservationList extends Component<ReservationListProps, ReservationsListSt
     /** Set this true while waiting for new data from a refresh */
     refreshing: PropTypes.bool,
     /** If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make sure to also set the refreshing prop correctly */
-    onRefresh: PropTypes.func
+    onRefresh: PropTypes.func,
+    /** Replace the existing Agenda FlatList with your own component */
+    AgendaListComp: PropTypes.element
   };
 
   static defaultProps = {
@@ -104,7 +107,6 @@ class ReservationList extends Component<ReservationListProps, ReservationsListSt
   private selectedDay: XDate;
   private scrollOver: boolean;
   private list: React.RefObject<FlatList> = React.createRef();
-
 
   constructor(props: ReservationListProps) {
     super(props);
@@ -278,7 +280,7 @@ class ReservationList extends Component<ReservationListProps, ReservationsListSt
   keyExtractor = (_item: DayReservations, index: number) => String(index);
 
   render() {
-    const {reservations, selectedDay, theme, style} = this.props;
+    const {reservations, selectedDay, theme, style, AgendaListComp} = this.props;
     if (!reservations || !reservations[toMarkingFormat(selectedDay)]) {
       if (_.isFunction(this.props.renderEmptyData)) {
         return _.invoke(this.props, 'renderEmptyData');
@@ -287,6 +289,9 @@ class ReservationList extends Component<ReservationListProps, ReservationsListSt
       return <ActivityIndicator style={this.style.indicator} color={theme?.indicatorColor} />;
     }
 
+    if (AgendaListComp) {
+      return <AgendaListComp data={this.state.reservations} />;
+    }
     return (
       <FlatList
         ref={this.list}
