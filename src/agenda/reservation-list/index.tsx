@@ -53,7 +53,7 @@ export type ReservationListProps = ReservationProps & {
   /** If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make sure to also set the refreshing prop correctly */
   onRefresh?: () => void;
   /** Replace the existing Agenda FlatList with your own component */
-  AgendaListComp?: React.ElementType;
+  AgendaListComp?: React.VFC;
 };
 
 interface ReservationsListState {
@@ -95,7 +95,7 @@ class ReservationList extends Component<ReservationListProps, ReservationsListSt
     /** If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make sure to also set the refreshing prop correctly */
     onRefresh: PropTypes.func,
     /** Replace the existing Agenda FlatList with your own component */
-    AgendaListComp: PropTypes.element
+    AgendaListComp: PropTypes.func
   };
 
   static defaultProps = {
