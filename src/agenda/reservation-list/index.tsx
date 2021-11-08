@@ -280,39 +280,40 @@ class ReservationList extends Component<ReservationListProps, ReservationsListSt
   keyExtractor = (_item: DayReservations, index: number) => String(index);
 
   render() {
-    const {reservations, selectedDay, theme, style, AgendaListComp} = this.props;
-    if (!reservations || !reservations[toMarkingFormat(selectedDay)]) {
-      if (_.isFunction(this.props.renderEmptyData)) {
-        return _.invoke(this.props, 'renderEmptyData');
-      }
-
-      return <ActivityIndicator style={this.style.indicator} color={theme?.indicatorColor} />;
-    }
-
+    const {AgendaListComp, reservations, selectedDay, theme, style} = this.props;
     if (AgendaListComp) {
       return <AgendaListComp data={this.state.reservations} />;
+    } else {
+      if (!reservations || !reservations[toMarkingFormat(selectedDay)]) {
+        if (_.isFunction(this.props.renderEmptyData)) {
+          return _.invoke(this.props, 'renderEmptyData');
+        }
+
+        return <ActivityIndicator style={this.style.indicator} color={theme?.indicatorColor} />;
+      }
+
+      return (
+        <FlatList
+          ref={this.list}
+          style={style}
+          contentContainerStyle={this.style.content}
+          data={this.state.reservations}
+          renderItem={this.renderRow}
+          keyExtractor={this.keyExtractor}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={200}
+          onMoveShouldSetResponderCapture={this.onMoveShouldSetResponderCapture}
+          onScroll={this.onScroll}
+          refreshControl={this.props.refreshControl}
+          refreshing={this.props.refreshing}
+          onRefresh={this.props.onRefresh}
+          onScrollBeginDrag={this.props.onScrollBeginDrag}
+          onScrollEndDrag={this.props.onScrollEndDrag}
+          onMomentumScrollBegin={this.props.onMomentumScrollBegin}
+          onMomentumScrollEnd={this.props.onMomentumScrollEnd}
+        />
+      );
     }
-    return (
-      <FlatList
-        ref={this.list}
-        style={style}
-        contentContainerStyle={this.style.content}
-        data={this.state.reservations}
-        renderItem={this.renderRow}
-        keyExtractor={this.keyExtractor}
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={200}
-        onMoveShouldSetResponderCapture={this.onMoveShouldSetResponderCapture}
-        onScroll={this.onScroll}
-        refreshControl={this.props.refreshControl}
-        refreshing={this.props.refreshing}
-        onRefresh={this.props.onRefresh}
-        onScrollBeginDrag={this.props.onScrollBeginDrag}
-        onScrollEndDrag={this.props.onScrollEndDrag}
-        onMomentumScrollBegin={this.props.onMomentumScrollBegin}
-        onMomentumScrollEnd={this.props.onMomentumScrollEnd}
-      />
-    );
   }
 }
 
