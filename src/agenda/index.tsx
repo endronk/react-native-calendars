@@ -282,7 +282,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     // scroll position actually changes (it would stay at 0, when scrolled to the top).
     this.setScrollPadPosition(this.initialScrollPadPosition(), false);
     // delay rendering calendar in full height because otherwise it still flickers sometimes
-    setTimeout(() => this.setState({calendarIsReady: true}), 500);
+    setTimeout(() => this.setState({calendarIsReady: true}), 0);
   };
 
   onCalendarListLayout = () => {
@@ -491,7 +491,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
           {this.renderWeekNumbersSpace()}
           {this.renderWeekDaysNames(weekDaysNames)}
         </Animated.View>
-        <Animated.ScrollView
+        {/* <Animated.ScrollView
           ref={this.scrollPad}
           style={[this.style.scrollPadStyle, scrollPadStyle]}
           overScrollMode="never"
@@ -510,7 +510,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
             style={{height: agendaHeight + KNOB_HEIGHT}}
             onLayout={this.onScrollPadLayout}
           />
-        </Animated.ScrollView>
+        </Animated.ScrollView> */}
       </View>
     );
   }
