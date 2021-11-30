@@ -42,15 +42,15 @@ class Presenter {
       return;
     }
 
-    x = this._getX(x, items?.length, width);
-    const newPage = this._getNewPage(x, width);
+    // Commented by Noviar so that the calendar doesn't automatically select a date
+    // x = this._getX(x, items?.length, width);
+    // const newPage = this._getNewPage(x, width);
 
-    if (this._shouldUpdateState(page, newPage)) {
-      // Commented by Noviar so that the calendar doesn't automatically select a date
-      // _.invoke(context, 'setDate', items[newPage], updateSources.WEEK_SCROLL);
-      const data = this._getItemsForPage(page, items);
-      updateState(data, newPage);
-    }
+    // if (this._shouldUpdateState(page, newPage)) {
+    //   _.invoke(context, 'setDate', items[newPage], updateSources.WEEK_SCROLL);
+    //   const data = this._getItemsForPage(page, items);
+    //   updateState(data, newPage);
+    // }
   };
 
   onMomentumScrollEnd = ({items, props, page, updateItems}: any) => {
