@@ -46,7 +46,8 @@ class Presenter {
     const newPage = this._getNewPage(x, width);
 
     if (this._shouldUpdateState(page, newPage)) {
-      _.invoke(context, 'setDate', items[newPage], updateSources.WEEK_SCROLL);
+      // Commented by Noviar so that the calendar doesn't automatically select a date
+      // _.invoke(context, 'setDate', items[newPage], updateSources.WEEK_SCROLL);
       const data = this._getItemsForPage(page, items);
       updateState(data, newPage);
     }

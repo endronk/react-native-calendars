@@ -312,7 +312,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - boost-for-react-native
 
 EXTERNAL SOURCES:
@@ -379,7 +379,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: e686045572151edef46010a6f819ade377dfeb4b
-  FBReactNativeSpec: 92869e54fbef651850edc0f8ad2e5e53421f5fbe
+  FBReactNativeSpec: 30eaee832560b6b79593c8c3b91024bc2588ec6e
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: 6d3e854f0e7260a648badd0d44fc364bc9da9728
@@ -407,6 +407,6 @@ SPEC CHECKSUMS:
   ReactNativeNavigation: aefc8debafb4a374575adafb44a3352b9d5b618a
   Yoga: 575c581c63e0d35c9a83f4b46d01d63abc1100ac
 
-PODFILE CHECKSUM: 5a05218a73db7115b23ae6a6776e0bc1265e94d2
+PODFILE CHECKSUM: fba3d608e9f84102d527780a319b7b4e79c20e1b
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2
