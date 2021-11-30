@@ -487,11 +487,11 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
           </Animated.View>
           {this.renderKnob()}
         </Animated.View>
-        <Animated.View style={weekdaysStyle}>
+        {/* <Animated.View style={weekdaysStyle}>
           {this.renderWeekNumbersSpace()}
           {this.renderWeekDaysNames(weekDaysNames)}
-        </Animated.View>
-        {/* <Animated.ScrollView
+        </Animated.View> */}
+        <Animated.ScrollView
           ref={this.scrollPad}
           style={[this.style.scrollPadStyle, scrollPadStyle]}
           overScrollMode="never"
@@ -510,7 +510,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
             style={{height: agendaHeight + KNOB_HEIGHT}}
             onLayout={this.onScrollPadLayout}
           />
-        </Animated.ScrollView> */}
+        </Animated.ScrollView>
       </View>
     );
   }
