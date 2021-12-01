@@ -9,7 +9,6 @@ import {
   View,
   Dimensions,
   Animated,
-  Alert,
   ViewStyle,
   LayoutChangeEvent,
   NativeSyntheticEvent,
@@ -280,6 +279,8 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
   });
 
   onScrollPadLayout = () => {
+    console.log('>>>>> onScrollPadLayout');
+
     // When user touches knob, the actual component that receives touch events is a ScrollView.
     // It needs to be scrolled to the bottom, so that when user moves finger downwards,
     // scroll position actually changes (it would stay at 0, when scrolled to the top).
@@ -289,8 +290,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
       this.setState({calendarIsReady: true});
       const endTime = new Date();
       const timeDiff = endTime - this.startTime;
-      console.log('>>>>>>>>>> timeDiff', timeDiff);
-      Alert.alert('timeDiff', timeDiff.toString());
+      console.log('>>>>> timeDiff', timeDiff);
     }, 0);
   };
 
@@ -471,12 +471,16 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
       }
     ];
 
-    // if (!this.state.calendarIsReady) {
-    //   // limit header height until everything is setup for calendar dragging
-    //   headerStyle.push({height: 0});
-    //   // fill header with appStyle.calendarBackground background to reduce flickering
-    //   weekdaysStyle.push({height: HEADER_HEIGHT});
-    // }
+    if (!this.state.calendarIsReady) {
+      console.log('>>>>> calendar is NOT ready');
+
+      // limit header height until everything is setup for calendar dragging
+      headerStyle.push({height: 0});
+      // fill header with appStyle.calendarBackground background to reduce flickering
+      weekdaysStyle.push({height: HEADER_HEIGHT});
+    } else {
+      console.log('>>>>> calendar is ready');
+    }
 
     const openCalendarScrollPadPosition =
       !hideKnob && this.state.calendarScrollable && this.props.showClosingKnob ? agendaHeight + HEADER_HEIGHT : 0;
