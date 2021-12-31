@@ -1,8 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {I18nManager, StyleSheet} from 'react-native';
 import * as defaultStyle from '../style';
 import platformStyles from './platform-style';
 import {Theme} from '../types';
-
 
 export default function styleConstructor(theme: Theme = {}) {
   const appStyle = {...defaultStyle, ...theme};
@@ -50,7 +49,11 @@ export default function styleConstructor(theme: Theme = {}) {
     },
     scrollPadStyle: {
       position: 'absolute',
-      width: 80,
+      width: 80
+    },
+    arrowImage: {
+      tintColor: appStyle.arrowColor,
+      transform: I18nManager.isRTL ? [{scaleX: -1}] : undefined
     },
     ...(theme.stylesheet?.agenda?.main || {})
   });

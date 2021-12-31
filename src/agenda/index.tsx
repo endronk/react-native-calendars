@@ -9,11 +9,13 @@ import {
   View,
   Dimensions,
   Animated,
+  Image,
   ViewStyle,
   LayoutChangeEvent,
   NativeSyntheticEvent,
   NativeScrollEvent
 } from 'react-native';
+import {Direction} from 'types';
 
 // @ts-expect-error
 import {extractComponentProps} from '../component-updater.js';
@@ -32,6 +34,8 @@ import ReservationList, {ReservationListProps} from './reservation-list';
 
 const HEADER_HEIGHT = 104;
 const KNOB_HEIGHT = 24;
+const LEFT_ARROW = require('../calendar/img/previous.png');
+const RIGHT_ARROW = require('../calendar/img/next.png');
 
 export type ReservationItemType = {
   name: string;
@@ -391,7 +395,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
         onLayout={this.onCalendarListLayout}
         onDayPress={this.chooseDayFromCalendar}
         onVisibleMonthsChange={this.onVisibleMonthsChange}
-        staticHeader
+        renderArrow={this.renderArrow}
       />
     );
   }
@@ -424,9 +428,64 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     return this.props.showWeekNumbers && <View style={this.style.weekday} />;
   };
 
+  renderTopHeader() {
+    const monthYear = new XDate(this.state.selectedDay).toString('MMMM yyyy');
+    const weekDaysNames = weekDayNames(this.props.firstDay);
+    const agendaHeight = this.initialScrollPadPosition();
+
+    return (
+      <Animated.View
+        // ref={this.header}
+        style={[
+          this.style.header,
+          {
+            opacity: this.state.scrollY.interpolate({
+              inputRange: [agendaHeight - HEADER_HEIGHT, agendaHeight],
+              outputRange: [0, 1],
+              extrapolate: 'clamp'
+            }),
+            transform: [
+              {
+                translateY: this.state.scrollY.interpolate({
+                  inputRange: [Math.max(0, agendaHeight - HEADER_HEIGHT), agendaHeight],
+                  outputRange: [-HEADER_HEIGHT, 0],
+                  extrapolate: 'clamp'
+                })
+              }
+            ]
+          }
+        ]}
+        pointerEvents={'none'}
+      >
+        <Text allowFontScaling={false} style={this.style.headerTitle}>
+          {monthYear}
+        </Text>
+        <View style={this.style.weekdays}>
+          {this.renderWeekNumbersSpace()}
+          {this.renderWeekDaysNames(weekDaysNames)}
+        </View>
+      </Animated.View>
+    );
+  }
+
+  renderArrow = (direction: Direction) => {
+    const {renderArrow, testID} = this.props;
+
+    if (_.isFunction(renderArrow)) {
+      return renderArrow(direction);
+    }
+
+    return (
+      <Image
+        source={direction === 'right' ? RIGHT_ARROW : LEFT_ARROW}
+        style={this.style.arrowImage}
+        testID={`${testID}-${direction}-arrow`}
+      />
+    );
+  };
+
   render() {
-    const {firstDay, hideKnob, style, testID} = this.props;
-    const weekDaysNames = weekDayNames(firstDay);
+    const {hideKnob, style, testID} = this.props;
     const agendaHeight = this.initialScrollPadPosition();
     const weekdaysStyle = [
       this.style.weekdays,
@@ -491,10 +550,11 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
           </Animated.View>
           {this.renderKnob()}
         </Animated.View>
-        <Animated.View style={weekdaysStyle}>
+        {/* <Animated.View style={weekdaysStyle}>
           {this.renderWeekNumbersSpace()}
           {this.renderWeekDaysNames(weekDaysNames)}
-        </Animated.View>
+        </Animated.View> */}
+        {this.renderTopHeader()}
         <Animated.ScrollView
           ref={this.scrollPad}
           style={[this.style.scrollPadStyle, scrollPadStyle]}

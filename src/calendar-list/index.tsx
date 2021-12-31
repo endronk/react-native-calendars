@@ -335,7 +335,7 @@ class CalendarList extends Component<Props, State> {
 
   renderStaticHeader() {
     const {staticHeader, horizontal, headerStyle} = this.props;
-    const useStaticHeader = staticHeader;
+    const useStaticHeader = staticHeader && horizontal;
     const headerProps = extractComponentProps(CalendarHeader, this.props);
 
     if (useStaticHeader) {
