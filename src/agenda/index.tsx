@@ -303,6 +303,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     this.viewWidth = event.nativeEvent.layout.width;
     console.log('===== viewWidth, viewHeight', this.viewWidth, this.viewHeight);
     this.forceUpdate();
+    this.setScrollPadPosition(this.initialScrollPadPosition(), false);
   };
 
   onTouchStart = () => {
