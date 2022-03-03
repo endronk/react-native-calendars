@@ -181,8 +181,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     if (this.state.counter !== prevState.counter) {
       console.log('===== counter', this.state.counter);
       setTimeout(() => {
-        this.onScrollPadLayout();
-        this.onCalendarListLayout();
+        this.setScrollPadPosition(this.initialScrollPadPosition(), false);
       }, 0);
     }
   }
@@ -292,15 +291,15 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
 
   onScrollPadLayout = () => {
     console.log('===== onScrollPadLayout');
-    // if (!this.state.calendarIsReady) {
-    // When user touches knob, the actual component that receives touch events is a ScrollView.
-    // It needs to be scrolled to the bottom, so that when user moves finger downwards,
-    // scroll position actually changes (it would stay at 0, when scrolled to the top).
-    console.log('===== this.initialScrollPadPosition()', this.initialScrollPadPosition());
-    this.setScrollPadPosition(this.initialScrollPadPosition(), false);
-    // delay rendering calendar in full height because otherwise it still flickers sometimes
-    // setTimeout(() => this.setState({calendarIsReady: true}), 200);
-    // }
+    if (!this.state.calendarIsReady) {
+      // When user touches knob, the actual component that receives touch events is a ScrollView.
+      // It needs to be scrolled to the bottom, so that when user moves finger downwards,
+      // scroll position actually changes (it would stay at 0, when scrolled to the top).
+      console.log('===== this.initialScrollPadPosition()', this.initialScrollPadPosition());
+      this.setScrollPadPosition(this.initialScrollPadPosition(), false);
+      // delay rendering calendar in full height because otherwise it still flickers sometimes
+      setTimeout(() => this.setState({calendarIsReady: true}), 0);
+    }
   };
 
   onCalendarListLayout = () => {
@@ -412,7 +411,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
         calendarWidth={this.viewWidth}
         scrollEnabled={this.state.calendarScrollable}
         hideExtraDays={shouldHideExtraDays}
-        // onLayout={this.onCalendarListLayout}
+        onLayout={this.onCalendarListLayout}
         onDayPress={this.chooseDayFromCalendar}
         onVisibleMonthsChange={this.onVisibleMonthsChange}
         renderArrow={this.renderArrow}
@@ -593,7 +592,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
           <View
             testID={AGENDA_CALENDAR_KNOB}
             style={{height: agendaHeight + KNOB_HEIGHT}}
-            // onLayout={this.onScrollPadLayout}
+            onLayout={this.onScrollPadLayout}
           />
         </Animated.ScrollView>
       </View>
