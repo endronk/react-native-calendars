@@ -183,7 +183,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
       setTimeout(() => {
         this.onScrollPadLayout();
         this.onCalendarListLayout();
-      }, 2000);
+      }, 20);
     }
   }
 
