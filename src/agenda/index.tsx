@@ -182,6 +182,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
       console.log('===== counter', this.state.counter);
       setTimeout(() => {
         this.setScrollPadPosition(this.initialScrollPadPosition(), false);
+        this.calendar?.current?.scrollToDay(this.state.selectedDay.clone(), this.calendarOffset(), false);
       }, 0);
     }
   }
