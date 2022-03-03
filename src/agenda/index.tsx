@@ -297,7 +297,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     console.log('===== this.initialScrollPadPosition()', this.initialScrollPadPosition());
     this.setScrollPadPosition(this.initialScrollPadPosition(), false);
     // delay rendering calendar in full height because otherwise it still flickers sometimes
-    setTimeout(() => this.setState({calendarIsReady: true}), 200);
+    // setTimeout(() => this.setState({calendarIsReady: true}), 200);
     // }
   };
 
@@ -410,7 +410,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
         calendarWidth={this.viewWidth}
         scrollEnabled={this.state.calendarScrollable}
         hideExtraDays={shouldHideExtraDays}
-        onLayout={this.onCalendarListLayout}
+        // onLayout={this.onCalendarListLayout}
         onDayPress={this.chooseDayFromCalendar}
         onVisibleMonthsChange={this.onVisibleMonthsChange}
         renderArrow={this.renderArrow}
@@ -543,12 +543,12 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
       }
     ];
 
-    if (!this.state.calendarIsReady) {
-      // limit header height until everything is setup for calendar dragging
-      headerStyle.push({height: 0});
-      // fill header with appStyle.calendarBackground background to reduce flickering
-      weekdaysStyle.push({height: HEADER_HEIGHT});
-    }
+    // if (!this.state.calendarIsReady) {
+    //   // limit header height until everything is setup for calendar dragging
+    //   headerStyle.push({height: 0});
+    //   // fill header with appStyle.calendarBackground background to reduce flickering
+    //   weekdaysStyle.push({height: HEADER_HEIGHT});
+    // }
 
     const openCalendarScrollPadPosition =
       !hideKnob && this.state.calendarScrollable && this.props.showClosingKnob ? agendaHeight + HEADER_HEIGHT : 0;
@@ -591,7 +591,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
           <View
             testID={AGENDA_CALENDAR_KNOB}
             style={{height: agendaHeight + KNOB_HEIGHT}}
-            onLayout={this.onScrollPadLayout}
+            // onLayout={this.onScrollPadLayout}
           />
         </Animated.ScrollView>
       </View>
