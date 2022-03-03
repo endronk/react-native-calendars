@@ -80,6 +80,7 @@ type AgendaState = {
   firstReservationLoad: boolean;
   selectedDay: XDate;
   topDay: XDate;
+  counter: number;
 };
 
 /**
@@ -150,7 +151,8 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
       calendarScrollable: false,
       firstReservationLoad: false,
       selectedDay: parseDate(props.selected) || new XDate(true),
-      topDay: parseDate(props.selected) || new XDate(true)
+      topDay: parseDate(props.selected) || new XDate(true),
+      counter: 1
     };
 
     this.currentMonth = this.state.selectedDay.clone();
@@ -169,13 +171,18 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     this.state.scrollY.removeAllListeners();
   }
 
-  componentDidUpdate(prevProps: AgendaProps) {
+  componentDidUpdate(prevProps: AgendaProps, prevState: AgendaState) {
     if (this.props.selected && !sameDate(parseDate(this.props.selected), parseDate(prevProps.selected))) {
       this.setState({selectedDay: parseDate(this.props.selected)});
     } else if (!prevProps.items) {
       this.loadReservations(this.props);
     }
-    console.log('===== componentDidUpdate', prevProps);
+
+    if (this.state.counter !== prevState.counter) {
+      console.log('===== counter', this.state.counter);
+      console.log('===== this.initialScrollPadPosition() AGAIN', this.initialScrollPadPosition());
+      this.setScrollPadPosition(this.initialScrollPadPosition(), false);
+    }
   }
 
   static getDerivedStateFromProps(nextProps: AgendaProps) {
@@ -303,9 +310,9 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     this.viewHeight = event.nativeEvent.layout.height;
     this.viewWidth = event.nativeEvent.layout.width;
     console.log('===== viewWidth, viewHeight', this.viewWidth, this.viewHeight);
-    this.forceUpdate();
-    console.log('===== this.initialScrollPadPosition() AGAIN', this.initialScrollPadPosition());
-    this.setScrollPadPosition(this.initialScrollPadPosition(), false);
+    this.setState(prevState => ({
+      counter: prevState.counter + 1
+    }));
   };
 
   onTouchStart = () => {
