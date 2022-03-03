@@ -307,12 +307,15 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
   };
 
   onLayout = (event: LayoutChangeEvent) => {
-    this.viewHeight = event.nativeEvent.layout.height;
-    this.viewWidth = event.nativeEvent.layout.width;
-    console.log('===== viewWidth, viewHeight', this.viewWidth, this.viewHeight);
-    this.setState(prevState => ({
-      counter: prevState.counter + 1
-    }));
+    console.log('===== onLayout');
+    if (this.state.counter === 1) {
+      this.viewHeight = event.nativeEvent.layout.height;
+      this.viewWidth = event.nativeEvent.layout.width;
+      console.log('===== viewWidth, viewHeight', this.viewWidth, this.viewHeight);
+      this.setState(prevState => ({
+        counter: prevState.counter + 1
+      }));
+    }
   };
 
   onTouchStart = () => {
