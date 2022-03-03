@@ -175,6 +175,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     } else if (!prevProps.items) {
       this.loadReservations(this.props);
     }
+    console.log('===== componentDidUpdate', prevProps);
   }
 
   static getDerivedStateFromProps(nextProps: AgendaProps) {
@@ -303,6 +304,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     this.viewWidth = event.nativeEvent.layout.width;
     console.log('===== viewWidth, viewHeight', this.viewWidth, this.viewHeight);
     this.forceUpdate();
+    console.log('===== this.initialScrollPadPosition() AGAIN', this.initialScrollPadPosition());
     this.setScrollPadPosition(this.initialScrollPadPosition(), false);
   };
 
@@ -490,6 +492,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
   };
 
   render() {
+    console.log('====== render');
     const {hideKnob, style, testID} = this.props;
     const agendaHeight = this.initialScrollPadPosition();
     const weekdaysStyle = [
