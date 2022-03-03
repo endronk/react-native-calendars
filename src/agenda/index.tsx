@@ -281,10 +281,12 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
   });
 
   onScrollPadLayout = () => {
+    console.log('===== onScrollPadLayout');
     if (!this.state.calendarIsReady) {
       // When user touches knob, the actual component that receives touch events is a ScrollView.
       // It needs to be scrolled to the bottom, so that when user moves finger downwards,
       // scroll position actually changes (it would stay at 0, when scrolled to the top).
+      console.log('===== this.initialScrollPadPosition()', this.initialScrollPadPosition());
       this.setScrollPadPosition(this.initialScrollPadPosition(), false);
       // delay rendering calendar in full height because otherwise it still flickers sometimes
       setTimeout(() => this.setState({calendarIsReady: true}), 200);
@@ -292,12 +294,14 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
   };
 
   onCalendarListLayout = () => {
+    console.log('===== onCalendarListLayout');
     this.calendar?.current?.scrollToDay(this.state.selectedDay.clone(), this.calendarOffset(), false);
   };
 
   onLayout = (event: LayoutChangeEvent) => {
     this.viewHeight = event.nativeEvent.layout.height;
     this.viewWidth = event.nativeEvent.layout.width;
+    console.log('===== viewWidth, viewHeight', this.viewWidth, this.viewHeight);
     this.forceUpdate();
   };
 
