@@ -171,18 +171,18 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
     this.state.scrollY.removeAllListeners();
   }
 
-  componentDidUpdate(prevProps: AgendaProps, prevState: AgendaState) {
+  componentDidUpdate(prevProps: AgendaProps) {
     if (this.props.selected && !sameDate(parseDate(this.props.selected), parseDate(prevProps.selected))) {
       this.setState({selectedDay: parseDate(this.props.selected)});
     } else if (!prevProps.items) {
       this.loadReservations(this.props);
     }
 
-    if (this.state.counter !== prevState.counter) {
-      console.log('===== counter', this.state.counter);
-      console.log('===== this.initialScrollPadPosition() AGAIN', this.initialScrollPadPosition());
-      this.setScrollPadPosition(this.initialScrollPadPosition(), false);
-    }
+    // if (this.state.counter !== prevState.counter) {
+    //   console.log('===== counter', this.state.counter);
+    //   console.log('===== this.initialScrollPadPosition() AGAIN', this.initialScrollPadPosition());
+    //   this.setScrollPadPosition(this.initialScrollPadPosition(), false);
+    // }
   }
 
   static getDerivedStateFromProps(nextProps: AgendaProps) {
@@ -308,14 +308,15 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
 
   onLayout = (event: LayoutChangeEvent) => {
     console.log('===== onLayout');
-    if (this.state.counter === 1) {
-      this.viewHeight = event.nativeEvent.layout.height;
-      this.viewWidth = event.nativeEvent.layout.width;
-      console.log('===== viewWidth, viewHeight', this.viewWidth, this.viewHeight);
-      this.setState(prevState => ({
-        counter: prevState.counter + 1
-      }));
-    }
+    // if (this.state.counter === 1) {
+    this.viewHeight = event.nativeEvent.layout.height;
+    this.viewWidth = event.nativeEvent.layout.width;
+    console.log('===== viewWidth, viewHeight', this.viewWidth, this.viewHeight);
+    this.forceUpdate();
+    //   this.setState(prevState => ({
+    //     counter: prevState.counter + 1
+    //   }));
+    // }
   };
 
   onTouchStart = () => {
@@ -502,7 +503,7 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
   };
 
   render() {
-    console.log('====== render');
+    console.log('====== render, this.viewHeight', this.viewHeight);
     const {hideKnob, style, testID} = this.props;
     const agendaHeight = this.initialScrollPadPosition();
     const weekdaysStyle = [
