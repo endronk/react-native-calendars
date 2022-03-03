@@ -180,8 +180,10 @@ export default class Agenda extends Component<AgendaProps, AgendaState> {
 
     if (this.state.counter !== prevState.counter) {
       console.log('===== counter', this.state.counter);
-      this.onScrollPadLayout();
-      this.onCalendarListLayout();
+      setTimeout(() => {
+        this.onScrollPadLayout();
+        this.onCalendarListLayout();
+      }, 2000);
     }
   }
 
